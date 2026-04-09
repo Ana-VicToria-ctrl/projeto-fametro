@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><title>Login</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav>
+  <div class="brand">Catedral Santa Teresa - Tefé-AM</div>
+  <div class="menu-toggle" onclick="document.querySelector('nav .links').classList.toggle('show')">☰</div>
+  <div class="links">
+    <a href="index.html">Início</a>
+    <a href="historico.html">Histórico</a>
+    <a href="sobre.html">Sobre</a>
+    <a href="contato.html">Contato</a>
+    <a href="login.html">Login</a>
+    <a href="register.html">Registrar</a>
+  </div>
+</nav>
+
+<main class="container">
+  <section style="max-width:520px;margin:auto">
+    <h2>Entrar</h2>
+    <form action="login.php" method="POST">
+       <input name="usuario" placeholder="Usuário" required>
+       <input name="senha" type="password" placeholder="Senha" required>
+       <button class="primary">Entrar</button>
+    </form>
+
+    <p style="margin-top:12px">Ainda não tem conta? <a href="register.html">Registrar-se</a></p>
+  </section>
+</main>
+
+<footer>© 2025 – Turismo de Tefé-AM</footer>
+<script src="main.js"></script>
+</body>
+</html>

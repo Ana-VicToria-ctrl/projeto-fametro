@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tefé Turismo | Descubra Tefé-AM</title>
+    <meta name="description" content="Portal turístico de Tefé-AM com atrações, dicas de visita e área de acesso para administração e usuários.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav">
+            <a class="brand" href="index.html">
+                <img src="Brasão.de.Tefé.png" alt="Brasão de Tefé">
+                <div class="brand-text">
+                    <strong>Tefé Turismo</strong>
+                    <span>Portal cultural e turístico</span>
+                </div>
+            </a>
+            <div class="nav-links">
+                <a class="active" href="index.html">Início</a>
+                <a href="atraçoes.html">Atrações</a>
+                <a href="sobre.html">Sobre</a>
+                <a href="dashboard.html">Painel</a>
+                <a class="button-link" href="login.html">Entrar</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <video class="hero-video" autoplay muted loop playsinline poster="img/encontro-aguas.jpg">
+                <source src="video.tefe.mp4" type="video/mp4">
+            </video>
+            <div class="hero-overlay"></div>
+            <div class="hero-grid">
+                <div class="hero-copy">
+                    <div class="eyebrow">Amazonas • Cultura viva • Natureza exuberante</div>
+                    <h1>Tefé tem história, festa, rio e experiência boa de verdade.</h1>
+                    <p>
+                        Este projeto apresenta os principais pontos turísticos da cidade de Tefé-AM
+                        com um visual mais forte, navegação mais clara e uma área de acesso
+                        separada para administrador e usuários visitantes.
+                    </p>
+                    <div class="hero-actions">
+                        <a class="button button-primary" href="atraçoes.html">Explorar atrações</a>
+                        <a class="button button-secondary" href="login.html">Entrar no sistema</a>
+                    </div>
+                </div>
+
+                <aside class="hero-card">
+                    <span class="badge">Projeto final repaginado</span>
+                    <h2>O que melhorou aqui</h2>
+                    <p>
+                        O site agora destaca melhor a proposta turística da cidade e ganhou fluxo
+                        de login funcional com sessões locais para testes e apresentação.
+                    </p>
+                    <div class="mini-stats">
+                        <div>
+                            <strong>2</strong>
+                            <span>Perfis de acesso</span>
+                        </div>
+                        <div>
+                            <strong>8+</strong>
+                            <span>Destaques turísticos</span>
+                        </div>
+                        <div>
+                            <strong>100%</strong>
+                            <span>Uso direto no navegador</span>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <section class="section page-shell">
+            <div class="section-heading">
+                <span>Destaques</span>
+                <h2>Uma vitrine mais bonita para mostrar o melhor de Tefé</h2>
+                <p>
+                    A ideia do portal é valorizar o município e facilitar a apresentação do projeto:
+                    atrações em evidência, contexto cultural e um fluxo de acesso pronto para demonstração.
+                </p>
+            </div>
+
+            <div class="cards-grid">
+                <article class="card spotlight-card">
+                    <img src="img/praca-santa-teresa.jpg" alt="Praça Santa Teresa">
+                    <div class="card-body">
+                        <h3>Praça Santa Teresa</h3>
+                        <p>Espaço simbólico da cidade, ótimo para encontros, eventos e registro da memória local.</p>
+                    </div>
+                </article>
+
+                <article class="card spotlight-card">
+                    <img src="img/feira-agricultura.webp" alt="Feira da Agricultura Familiar">
+                    <div class="card-body">
+                        <h3>Feira da Agricultura Familiar</h3>
+                        <p>Produção regional, economia local, gastronomia e identidade cultural em um só lugar.</p>
+                    </div>
+                </article>
+
+                <article class="card spotlight-card">
+                    <img src="img/encontro-aguas.jpg" alt="Encontro das águas">
+                    <div class="card-body">
+                        <h3>Encontro das Águas</h3>
+                        <p>Um dos cenários naturais mais marcantes da região amazônica, ideal para passeios e contemplação.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section page-shell">
+            <div class="grid-2">
+                <div class="highlight">
+                    <h2>Área administrativa e painel do visitante</h2>
+                    <p>
+                        O administrador tem acesso a métricas, usuários cadastrados e mensagens simuladas para apresentação.
+                        Já o usuário comum entra em um painel com recomendações, roteiro rápido e status da própria conta.
+                    </p>
+                    <ul>
+                        <li>Login com redirecionamento por perfil</li>
+                        <li>Proteção de páginas por sessão local</li>
+                        <li>Cadastro simples para novos visitantes</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>Acesso de demonstração</h3>
+                    <p>Você já pode usar o projeto sem configurar banco de dados nem servidor PHP.</p>
+                    <ul class="tips-list">
+                        <li><strong>Admin:</strong> usuário <code>admin</code> e senha <code>admin123</code></li>
+                        <li><strong>Usuário:</strong> e-mail <code>visitante@tefe.com</code> e senha <code>123456</code></li>
+                        <li><strong>Cadastro:</strong> novos usuários podem se registrar direto pela interface</li>
+                    </ul>
+                    <div class="hero-actions">
+                        <a class="button button-primary" href="login.html">Abrir login</a>
+                        <a class="button button-tertiary" href="register.html">Criar conta</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>© 2026 Tefé Turismo. Projeto acadêmico com foco em cultura, turismo e experiência do usuário.</p>
+    </footer>
+</body>
+</html>

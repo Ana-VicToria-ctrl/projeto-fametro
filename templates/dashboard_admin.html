@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+
+{% block title %}Painel Admin | Tefé Turismo{% endblock %}
+
+{% block content %}
+<main class="page-content dashboard-layout">
+    <section class="dashboard-banner">
+        <span class="badge">Área administrativa</span>
+        <h1>Gestão do portal turístico</h1>
+        <p>
+            Um painel sóbrio e direto para publicar atrações, acompanhar usuários e tratar as
+            sugestões enviadas pelos visitantes sem gambiarra.
+        </p>
+        <div class="quick-stats">
+            <div>
+                <strong>{{ stats.users }}</strong>
+                <span>Usuários comuns</span>
+            </div>
+            <div>
+                <strong>{{ stats.attractions }}</strong>
+                <span>Atrações cadastradas</span>
+            </div>
+            <div>
+                <strong>{{ stats.suggestions }}</strong>
+                <span>Sugestões recebidas</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="grid-2">
+        <article class="panel-card">
+            <h3>{% if attraction_in_edit %}Editar atração{% else %}Cadastrar nova atração{% endif %}</h3>
+            <p>
+                {% if attraction_in_edit %}
+                    Atualize as informações e mantenha a vitrine do portal sempre redonda.
+                {% else %}
+                    Preencha os dados abaixo para publicar um novo card com página de detalhe completa.
+                {% endif %}
+            </p>
+
+            <form method="post" class="form-stack">
+                <input type="hidden" name="action" value="{% if attraction_in_edit %}update_attraction{% else %}create_attraction{% endif %}">
+                {% if attraction_in_edit %}
+                    <input type="hidden" name="attraction_id" value="{{ attraction_in_edit.id }}">
+                {% endif %}
+                <div class="form-group">
+                    <label for="title">Título</label>
+                    <input id="title" name="title" value="{{ attraction_in_edit.title if attraction_in_edit else '' }}" placeholder="Ex.: Praça da Onça" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="image">Imagem</label>
+                    <input id="image" name="image" value="{{ attraction_in_edit.image if attraction_in_edit else '' }}" placeholder="Ex.: img/praça da onça.jpg" required>
+                    <span class="input-hint">Use um caminho de imagem que já exista na pasta do projeto.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="summary">Resumo do card</label>
+                    <textarea id="summary" name="summary" rows="3" placeholder="Texto curto para aparecer no card..." required>{{ attraction_in_edit.summary if attraction_in_edit else '' }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="content">Texto completo</label>
+                    <textarea id="content" name="content" rows="7" placeholder="Conte a história e os detalhes da atração..." required>{{ attraction_in_edit.content if attraction_in_edit else '' }}</textarea>
+                </div>
+
+                <div class="inline-actions">
+                    <button class="button button-primary" type="submit">
+                        {% if attraction_in_edit %}Salvar atração{% else %}Cadastrar atração{% endif %}
+                    </button>
+                    {% if attraction_in_edit %}
+                        <a class="button button-tertiary" href="{{ url_for('admin_dashboard') }}">Cancelar edição</a>
+                    {% endif %}
+                </div>
+            </form>
+        </article>
+
+        <article class="panel-card">
+            <h3>Orientação rápida</h3>
+            <ul>
+                <li>Os cards da página de atrações abrem uma tela própria com imagem grande e texto na íntegra.</li>
+                <li>Novas atrações cadastradas aqui já passam a aparecer no portal.</li>
+                <li>O acesso administrativo continua protegido e sem link público na home.</li>
+            </ul>
+        </article>
+    </section>
+
+    <section class="table-card">
+        <h2>Atrações já cadastradas</h2>
+        <p>Esses conteúdos já estão publicados na vitrine do portal.</p>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Resumo</th>
+                            <th>Imagem</th>
+                            <th>Criado em</th>
+                            <th>Ações</th>
+                        </tr>
+                </thead>
+                <tbody>
+                    {% for attraction in attractions %}
+                        <tr>
+                            <td>{{ attraction.title }}</td>
+                            <td>{{ attraction.summary }}</td>
+                            <td>{{ attraction.image }}</td>
+                            <td>{{ attraction.created_at|datetime_br }}</td>
+                            <td>
+                                <div class="table-actions">
+                                    <a class="button button-small button-tertiary" href="{{ url_for('admin_dashboard', editar_atracao=attraction.id) }}">Editar</a>
+                                    <form method="post" action="{{ url_for('delete_attraction', attraction_id=attraction.id) }}" onsubmit="return confirm('Deseja excluir esta atração?');">
+                                        <button class="button button-small button-danger" type="submit">Excluir</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="table-card">
+        <h2>Usuários cadastrados</h2>
+        <p>Lista de contas disponíveis no sistema.</p>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Usuário</th>
+                        <th>E-mail</th>
+                        <th>Perfil</th>
+                        <th>Criado em</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.role }}</td>
+                            <td>{{ user.created_at|datetime_br }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="table-card">
+        <h2>Sugestões enviadas pelos visitantes</h2>
+        <p>Esse quadro ajuda a mostrar interação entre usuários e administração.</p>
+
+        {% if suggestions %}
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Visitante</th>
+                            <th>Título</th>
+                            <th>Mensagem</th>
+                            <th>Status</th>
+                            <th>Enviado em</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in suggestions %}
+                            <tr>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.title }}</td>
+                                <td>{{ item.message }}</td>
+                                <td>
+                                    <form method="post" class="status-form">
+                                        <input type="hidden" name="action" value="update_suggestion_status">
+                                        <input type="hidden" name="suggestion_id" value="{{ item.id }}">
+                                        <select name="status" onchange="this.form.submit()">
+                                            {% for status in status_options %}
+                                                <option value="{{ status }}" {% if item.status == status %}selected{% endif %}>{{ status }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </form>
+                                </td>
+                                <td>{{ item.created_at|datetime_br }}</td>
+                                <td>
+                                    <div class="table-actions">
+                                        <form method="post" action="{{ url_for('delete_suggestion_admin', suggestion_id=item.id) }}" onsubmit="return confirm('Deseja excluir esta sugestão?');">
+                                            <button class="button button-small button-danger" type="submit">Excluir</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <p>Nenhuma sugestão recebida até agora.</p>
+            </div>
+        {% endif %}
+    </section>
+</main>
+{% endblock %}

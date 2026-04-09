@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Sobre | Tefé Turismo{% endblock %}
+
+{% block content %}
+<main class="page-content">
+    <section class="section">
+        <div class="about-story">
+            <article class="highlight about-story-main">
+                <span class="badge">Sobre o projeto</span>
+                <h2>Um portal pensado para valorizar Tefé com mais presença visual e melhor organização</h2>
+                <p>
+                    Este trabalho junta turismo, identidade cultural e sistema web em uma proposta
+                    mais completa. A ideia foi deixar o projeto bonito para apresentar e funcional no uso real.
+                </p>
+                <ul>
+                    <li>Visual mais caprichado e leitura mais confortável</li>
+                    <li>Painel para visitantes e acesso administrativo separado</li>
+                    <li>Gerenciamento de atrações e sugestões em um só lugar</li>
+                </ul>
+            </article>
+
+            <article class="about-profile">
+                <img src="{{ url_for('asset_file', filename='img/foto.perfil.jpg') }}" alt="Foto da autora do projeto">
+                <div>
+                    <span class="badge">Projeto acadêmico</span>
+                    <h3>Ana Vitória</h3>
+                    <p>
+                        Projeto desenvolvido com foco em HTML, CSS, experiência do usuário
+                        e integração com backend em Flask.
+                    </p>
+                </div>
+            </article>
+        </div>
+
+        <div class="about-cards">
+            <article class="card about-card-wide">
+                <h3>Objetivo</h3>
+                <p>Apresentar os principais pontos turísticos de Tefé-AM de forma bonita, clara e fácil de navegar.</p>
+            </article>
+            <article class="card">
+                <h3>Tecnologias</h3>
+                <p>Flask, SQLite, HTML, CSS e templates Jinja2 trabalhando juntos em uma solução leve e funcional.</p>
+            </article>
+            <article class="card">
+                <h3>Resultado</h3>
+                <p>Um site que deixou de ser só vitrine estática e passou a ter login, painel e gerenciamento de conteúdo.</p>
+            </article>
+        </div>
+    </section>
+</main>
+{% endblock %}

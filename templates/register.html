@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Cadastro | Tefé Turismo{% endblock %}
+
+{% block content %}
+<main class="page-content auth-layout">
+    <section class="info-card">
+        <span class="badge">Novo visitante</span>
+        <h2>Crie sua conta de usuário</h2>
+        <p>
+            O cadastro é para visitantes. Depois de criar a conta, você já pode entrar,
+            acessar seu espaço e mandar sugestões para a administração.
+        </p>
+        <ul class="tips-list">
+            <li>O perfil criado aqui é sempre de usuário comum</li>
+            <li>O administrador continua separado para maior controle</li>
+            <li>Use um e-mail válido para identificar sua conta</li>
+        </ul>
+    </section>
+
+    <section class="auth-card">
+        <h1>Criar conta</h1>
+        <p class="auth-helper">Preencha os dados abaixo para liberar o acesso do visitante.</p>
+
+        <form method="post" class="form-stack">
+            <div class="form-group">
+                <label for="name">Nome completo</label>
+                <input id="name" name="name" placeholder="Seu nome" required>
+            </div>
+
+            <div class="form-group">
+                <label for="username">Usuário</label>
+                <input id="username" name="username" placeholder="usuario_tefe" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input id="email" name="email" type="email" placeholder="voce@email.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input id="password" name="password" type="password" placeholder="Crie uma senha" required>
+            </div>
+
+            <button class="button button-primary" type="submit">Cadastrar</button>
+        </form>
+    </section>
+</main>
+{% endblock %}

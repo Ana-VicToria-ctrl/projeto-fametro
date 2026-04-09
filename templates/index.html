@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Tefé Turismo | Descubra Tefé-AM{% endblock %}
+
+{% block content %}
+<main>
+    <section class="hero">
+        <video class="hero-video" autoplay muted loop playsinline poster="{{ url_for('asset_file', filename='img/encontro-aguas.jpg') }}">
+            <source src="{{ url_for('asset_file', filename='video.tefe.mp4') }}" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-grid hero-grid-wide">
+            <div class="hero-copy">
+                <div class="eyebrow">Amazonas • Cultura viva • Natureza exuberante</div>
+                <h1>Tefé merece ser mostrada com a força da sua paisagem, da sua história e da sua cultura.</h1>
+                <p>
+                    Este portal reúne pontos turísticos, experiências culturais e sugestões da comunidade
+                    em um espaço mais bonito, organizado e fácil de apresentar.
+                </p>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="{{ url_for('attractions') }}">Ver atrações</a>
+                    <a class="button button-secondary" href="{{ url_for('about') }}">Conhecer o projeto</a>
+                    {% if current_user.id and current_user.role == 'user' %}
+                        <a class="button button-tertiary" href="{{ url_for('user_dashboard') }}#enviar-sugestao">Fazer sugestão</a>
+                    {% else %}
+                        <a class="button button-tertiary" href="{{ url_for('login') }}">Entrar para sugerir</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section page-shell">
+        <div class="section-heading">
+            <span>Destaques</span>
+            <h2>Três experiências para abrir o apetite de quem visita Tefé</h2>
+            <p>
+                Cada card abre uma página própria com imagem em destaque e texto completo,
+                valorizando melhor cada lugar.
+            </p>
+        </div>
+
+        <div class="cards-grid">
+            {% for attraction in attractions %}
+                <a href="{{ url_for('attraction_detail', attraction_id=attraction.id) }}">
+                    <article class="card spotlight-card">
+                        <img src="{{ url_for('asset_file', filename=attraction.image) }}" alt="{{ attraction.title }}">
+                        <div class="card-body">
+                            <h3>{{ attraction.title }}</h3>
+                            <p>{{ attraction.summary }}</p>
+                        </div>
+                    </article>
+                </a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="section page-shell" id="sugestoes">
+        <div class="suggestion-callout">
+            <div>
+                <span class="badge">Canal de sugestões</span>
+                <h2>Quer sugerir algo para melhorar o portal?</h2>
+                <p>
+                    Quem cria conta pode mandar sugestões direto para a administração, ajudando
+                    a melhorar o conteúdo e destacar novos atrativos da cidade.
+                </p>
+            </div>
+            {% if current_user.id and current_user.role == 'user' %}
+                <a class="button button-primary" href="{{ url_for('user_dashboard') }}#enviar-sugestao">Abrir formulário</a>
+            {% else %}
+                <a class="button button-primary" href="{{ url_for('login') }}">Entrar para sugerir</a>
+            {% endif %}
+        </div>
+    </section>
+</main>
+{% endblock %}

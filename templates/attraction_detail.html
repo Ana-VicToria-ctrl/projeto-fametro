@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}{{ attraction.title }} | Tefé Turismo{% endblock %}
+
+{% block content %}
+<main class="page-content">
+    <section class="section">
+        <div class="detail-stack">
+            <div class="detail-image-wrap detail-image-wrap-full">
+                <img class="detail-image detail-image-full" src="{{ url_for('asset_file', filename=attraction.image) }}" alt="{{ attraction.title }}">
+            </div>
+
+            <article class="detail-copy detail-copy-full">
+                <span class="badge">Atração em destaque</span>
+                <h1>{{ attraction.title }}</h1>
+                <p class="detail-meta">Publicado em {{ attraction.created_at|datetime_short }}</p>
+                <p class="detail-summary">{{ attraction.summary }}</p>
+                <div class="detail-text">
+                    <p>{{ attraction.content }}</p>
+                </div>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="{{ url_for('attractions') }}">Voltar para atrações</a>
+                </div>
+            </article>
+        </div>
+    </section>
+</main>
+{% endblock %}

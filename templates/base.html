@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Tefé Turismo{% endblock %}</title>
+    <meta name="description" content="Portal turístico de Tefé-AM com área de administração e painel do visitante.">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav">
+            <a class="brand" href="{{ url_for('home') }}">
+                <img src="{{ url_for('asset_file', filename='Brasão.de.Tefé.png') }}" alt="Brasão de Tefé">
+                <div class="brand-text">
+                    <strong>Tefé Turismo</strong>
+                    <span>Portal cultural e turístico</span>
+                </div>
+            </a>
+            <div class="nav-links">
+                <a class="{% if request.endpoint == 'home' %}active{% endif %}" href="{{ url_for('home') }}">Início</a>
+                <a class="{% if request.endpoint == 'attractions' %}active{% endif %}" href="{{ url_for('attractions') }}">Atrações</a>
+                <a class="{% if request.endpoint == 'about' %}active{% endif %}" href="{{ url_for('about') }}">Sobre</a>
+                {% if current_user.id and current_user.role == 'user' %}
+                    <a href="{{ url_for('user_dashboard') }}#enviar-sugestao">Sugestões</a>
+                {% else %}
+                    <a href="{{ url_for('home') }}#sugestoes">Sugestões</a>
+                {% endif %}
+                {% if current_user.id %}
+                    {% if current_user.role == 'admin' %}
+                        <a class="{% if request.endpoint == 'admin_dashboard' %}active{% endif %}" href="{{ url_for('admin_dashboard') }}">Admin</a>
+                    {% endif %}
+                    {% if current_user.role == 'user' %}
+                        <a class="{% if request.endpoint == 'user_dashboard' %}active{% endif %}" href="{{ url_for('user_dashboard') }}">Meu Painel</a>
+                    {% endif %}
+                    <a class="button-link" href="{{ url_for('logout') }}">Sair</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Entrar</a>
+                    <a class="button-link" href="{{ url_for('register') }}">Criar conta</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="page-shell" style="padding-top: 18px;">
+                {% for category, message in messages %}
+                    <div class="message-box show message-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+
+    <footer class="site-footer">
+        <p>© 2026 Tefé Turismo. Projeto acadêmico em Flask com autenticação para admin e usuários.</p>
+    </footer>
+</body>
+</html>

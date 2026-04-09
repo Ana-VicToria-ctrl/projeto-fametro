@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Meu Painel | Tefé Turismo{% endblock %}
+
+{% block content %}
+<main class="page-content dashboard-layout">
+    <section class="dashboard-banner">
+        <span class="badge">Painel do visitante</span>
+        <h1>Olá, {{ current_user.name }}</h1>
+        <p>
+            Seu espaço para acompanhar ideias enviadas ao portal e sugerir melhorias que realmente
+            façam sentido para quem visita Tefé.
+        </p>
+        <div class="quick-stats">
+            <div>
+                <strong>{{ suggestions|length }}</strong>
+                <span>Sugestões enviadas</span>
+            </div>
+            <div>
+                <strong>Ativo</strong>
+                <span>Status da conta</span>
+            </div>
+            <div>
+                <strong>Tefé</strong>
+                <span>Destino em destaque</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="suggestion-callout">
+        <div>
+            <span class="badge">Canal de sugestões</span>
+            <h2>Tem uma ideia para melhorar o portal?</h2>
+            <p>
+                Use o formulário abaixo para mandar sua sugestão direto para a administração.
+                Pode ser melhoria visual, novo ponto turístico, mapa, evento ou qualquer ajuste legal.
+            </p>
+        </div>
+        <a class="button button-primary" href="#enviar-sugestao">Enviar agora</a>
+    </section>
+
+    <section class="dashboard-grid">
+        <article class="panel-card panel-card-featured" id="enviar-sugestao">
+            <h3>{% if suggestion_in_edit %}Editar sugestão{% else %}Enviar nova sugestão{% endif %}</h3>
+            <p>
+                {% if suggestion_in_edit %}
+                    Ajuste sua ideia e reenviе para análise da administração.
+                {% else %}
+                    Vale sugerir roteiro, evento, mapa, melhoria visual ou um novo atrativo.
+                {% endif %}
+            </p>
+            <form method="post" class="form-stack">
+                <input type="hidden" name="action" value="{% if suggestion_in_edit %}update{% else %}create{% endif %}">
+                {% if suggestion_in_edit %}
+                    <input type="hidden" name="suggestion_id" value="{{ suggestion_in_edit.id }}">
+                {% endif %}
+                <div class="form-group">
+                    <label for="title">Título da sugestão</label>
+                    <input id="title" name="title" value="{{ suggestion_in_edit.title if suggestion_in_edit else '' }}" placeholder="Ex.: mapa interativo" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Mensagem</label>
+                    <textarea id="message" name="message" rows="5" placeholder="Conte sua ideia..." required>{{ suggestion_in_edit.message if suggestion_in_edit else '' }}</textarea>
+                </div>
+
+                <div class="inline-actions">
+                    <button class="button button-primary" type="submit">
+                        {% if suggestion_in_edit %}Salvar alteração{% else %}Enviar sugestão{% endif %}
+                    </button>
+                    {% if suggestion_in_edit %}
+                        <a class="button button-tertiary" href="{{ url_for('user_dashboard') }}">Cancelar edição</a>
+                    {% endif %}
+                </div>
+            </form>
+        </article>
+
+        <article class="panel-card">
+            <h3>Dicas para sua visita</h3>
+            <ul>
+                <li>Inclua a Praça Santa Teresa e a Feira da Agricultura no seu roteiro.</li>
+                <li>Priorize horários com clima mais ameno para passeios ao ar livre.</li>
+                <li>Registre experiências culturais para enriquecer a apresentação do projeto.</li>
+            </ul>
+        </article>
+
+        <article class="panel-card">
+            <h3>Sua conta</h3>
+            <ul>
+                <li><strong>Perfil:</strong> usuário comum</li>
+                <li><strong>Área liberada:</strong> painel do visitante</li>
+                <li><strong>Ação rápida:</strong> compartilhar sugestões com o admin</li>
+            </ul>
+        </article>
+    </section>
+
+    <section class="table-card">
+        <h2>Histórico das suas sugestões</h2>
+        <p>As mensagens abaixo ficam disponíveis para acompanhamento da administração.</p>
+
+        {% if suggestions %}
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Mensagem</th>
+                            <th>Status</th>
+                            <th>Enviado em</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in suggestions %}
+                            <tr>
+                                <td>{{ item.title }}</td>
+                                <td>{{ item.message }}</td>
+                                <td><span class="status-badge">{{ item.status }}</span></td>
+                                <td>{{ item.created_at|datetime_br }}</td>
+                                <td>
+                                    <div class="table-actions">
+                                        <a class="button button-small button-tertiary" href="{{ url_for('user_dashboard', edit=item.id) }}#enviar-sugestao">Editar</a>
+                                        <form method="post" action="{{ url_for('delete_suggestion', suggestion_id=item.id) }}" onsubmit="return confirm('Deseja excluir esta sugestão?');">
+                                            <button class="button button-small button-danger" type="submit">Excluir</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <p>Nenhuma sugestão enviada ainda. Use o formulário acima para começar.</p>
+            </div>
+        {% endif %}
+    </section>
+</main>
+{% endblock %}
