@@ -7,6 +7,7 @@ from datetime import datetime
 from functools import wraps
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 from flask import (
     Flask,
@@ -102,6 +103,19 @@ ATTRACTION_SEEDS = [
 ]
 
 
+def is_external_image_url(value: str | None) -> bool:
+    if not value:
+        return False
+    parsed = urlparse(value.strip())
+    return parsed.scheme in {"http", "https"} and bool(parsed.netloc)
+
+
+def resolve_image_src(image: str) -> str:
+    if is_external_image_url(image):
+        return image
+    return url_for("asset_file", filename=image)
+
+
 def create_app() -> Flask:
     app = Flask(
         __name__,
@@ -139,7 +153,8 @@ def create_app() -> Flask:
                 "id": session.get("user_id"),
                 "name": session.get("name"),
                 "role": session.get("role"),
-            }
+            },
+            "resolve_image_src": resolve_image_src,
         }
 
     @app.route("/health")
@@ -339,6 +354,14 @@ def create_app() -> Flask:
 
             if action == "create_attraction" and not all([title, summary, content, image]):
                 flash("Preencha título, resumo, texto completo e imagem.", "error")
+                return redirect(url_for("admin_dashboard"))
+
+            if action in {"create_attraction", "update_attraction"} and not is_external_image_url(image):
+                flash("Informe uma URL de imagem válida começando com http:// ou https://.", "error")
+                if action == "update_attraction":
+                    attraction_id = request.form.get("attraction_id", type=int)
+                    if attraction_id:
+                        return redirect(url_for("admin_dashboard", editar_atracao=attraction_id))
                 return redirect(url_for("admin_dashboard"))
 
             if action == "create_attraction":

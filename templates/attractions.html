@@ -18,7 +18,7 @@
             {% for attraction in attractions %}
                 <a href="{{ url_for('attraction_detail', attraction_id=attraction.id) }}">
                     <article class="card spotlight-card">
-                        <img src="{{ url_for('asset_file', filename=attraction.image) }}" alt="{{ attraction.title }}">
+                        <img src="{{ resolve_image_src(attraction.image) }}" alt="{{ attraction.title }}">
                         <div class="card-body">
                             <h3>{{ attraction.title }}</h3>
                             <p>{{ attraction.summary }}</p>

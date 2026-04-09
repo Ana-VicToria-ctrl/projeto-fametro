@@ -7,7 +7,7 @@
     <section class="section">
         <div class="detail-stack">
             <div class="detail-image-wrap detail-image-wrap-full">
-                <img class="detail-image detail-image-full" src="{{ url_for('asset_file', filename=attraction.image) }}" alt="{{ attraction.title }}">
+                <img class="detail-image detail-image-full" src="{{ resolve_image_src(attraction.image) }}" alt="{{ attraction.title }}">
             </div>
 
             <article class="detail-copy detail-copy-full">
