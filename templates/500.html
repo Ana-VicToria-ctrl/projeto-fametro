@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Erro Interno do Servidor - Tefé Turismo{% endblock %}
+
+{% block content %}
+<div class="page-shell">
+    <h1>500 - Erro Interno do Servidor</h1>
+    <p>Ocorreu um erro interno no servidor. Tente novamente mais tarde.</p>
+    <a href="{{ url_for('home') }}">Voltar ao Início</a>
+</div>
+{% endblock %}

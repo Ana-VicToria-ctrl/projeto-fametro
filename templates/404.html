@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Página Não Encontrada - Tefé Turismo{% endblock %}
+
+{% block content %}
+<div class="page-shell">
+    <h1>404 - Página Não Encontrada</h1>
+    <p>A página que você está procurando não existe.</p>
+    <a href="{{ url_for('home') }}">Voltar ao Início</a>
+</div>
+{% endblock %}
